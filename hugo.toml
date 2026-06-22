@@ -1,0 +1,6 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Demo Site"
+
+[params]
+  tagline = "A sandbox for the email-to-website agent."
