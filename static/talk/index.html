@@ -21,7 +21,10 @@
     --muted:  #9fb6d6;   /* dim slate-blue — labels           */
     --gold:   #ffc72c;   /* Old Bay yellow — primary accent   */
     --gold2:  #f2a900;   /* deep amber                        */
-    --red:    #c8102e;   /* Old Bay red — the one job / pops  */
+    --red:    #c8102e;   /* Old Bay red — fills & borders only */
+    --redink: #ff8a75;   /* steamed-crab coral — red as TEXT.  */
+                         /* #c8102e on navy is 2.3:1 — unreadable
+                            on a projector. This is 5.9:1.      */
   }
 
   * { box-sizing: border-box; }
@@ -60,13 +63,15 @@
   }
   .kunu::before { content: "\201C"; }
   .kunu::after  { content: "\201D"; }
+  /* Same eyebrow rhythm, but it isn't Kunu talking — no quote marks. */
+  .kunu.plain::before, .kunu.plain::after { content: none; }
 
   h1, h2 { line-height: 1.08; margin: 0 0 1rem; font-weight: 800; }
   h2 { font-size: clamp(1.8rem, 5vw, 3rem); color: var(--gold); }
 
   p.lead { font-size: clamp(1.1rem, 2.4vw, 1.35rem); color: var(--cream); }
   p.sub  { color: var(--muted); font-size: 1.05rem; }
-  strong.hi { color: var(--red); }
+  strong.hi { color: var(--redink); }
   .teal { color: var(--gold); }
 
   /* ---------------------------- COVER ---------------------------- */
@@ -117,7 +122,7 @@
     font-weight: 900;
     letter-spacing: 0.06em;
     margin: 0.4rem 0 0.2rem;
-    background: linear-gradient(90deg, var(--gold), var(--gold2), var(--red));
+    background: linear-gradient(90deg, var(--gold), var(--gold2), var(--redink));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -169,6 +174,80 @@
   .arrow { align-self: center; color: var(--muted); font-size: 1.3rem; }
   .caption { color: var(--muted); font-style: italic; margin-top: 0.5rem; }
 
+  /* The requirements list — what I wanted, what I refused to sign up for. */
+  .spec {
+    list-style: none; padding: 0;
+    margin: 1.75rem auto 1.25rem;
+    max-width: 620px; text-align: left;
+  }
+  .spec li {
+    display: grid; grid-template-columns: 1.5rem 1fr; gap: 0.65rem;
+    align-items: baseline;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid #1d2c48;
+    font-size: clamp(0.98rem, 2.1vw, 1.1rem);
+  }
+  .spec li:last-child { border-bottom: 0; }
+  .spec .mark { font-weight: 900; font-size: 1.1rem; text-align: center; }
+  .spec .yes .mark { color: var(--gold); }
+  .spec .no  .mark { color: var(--redink); }
+  .spec .no  { color: var(--muted); }
+
+  /* Four-up glossary: git / GitHub / Pages / Actions, in plain English. */
+  .deck {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* 2x2 on a projector, stacks below */
+    gap: 0.75rem;
+    text-align: left;
+    margin: 1.75rem 0 1.25rem;
+  }
+  .def {
+    background: var(--navy2);
+    border: 1px solid #2b3a58;
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+  .def h3 { margin: 0 0 0.4rem; font-size: 1.05rem; color: var(--gold); }
+  .def p  { margin: 0; font-size: 0.95rem; }
+  .def .plain {
+    display: block; margin-top: 0.45rem;
+    font-size: 0.85rem; color: var(--muted); font-style: italic;
+  }
+  @media (max-width: 560px) { .deck { grid-template-columns: 1fr; } }
+
+  /* Old man yells at cloud — set up the meme, then refuse it. The gripe
+     isn't the cloud, it's the knob count. Emoji stand in for real art. */
+  .yells {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 1.4rem;
+    margin: 1.5rem 0 2.25rem;
+  }
+  .yells .who, .yells .cloud {
+    font-size: clamp(3rem, 12vw, 5.5rem); line-height: 1;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+  }
+  .bubble {
+    position: relative;
+    background: var(--cream); color: var(--navy);
+    font-weight: 800; text-align: left;
+    border-radius: 14px; padding: 0.85rem 1.05rem;
+    max-width: 300px;
+    font-size: clamp(0.95rem, 2.2vw, 1.1rem); line-height: 1.35;
+    text-transform: uppercase; letter-spacing: 0.01em;
+  }
+  .bubble::after {           /* tail, pointing back at the old man */
+    content: ""; position: absolute; left: -11px; top: 50%;
+    transform: translateY(-50%);
+    border: 9px solid transparent; border-left: 0;
+    border-right-color: var(--cream);
+  }
+  .cloudwrap { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+  .cloudwrap .lbl {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
   /* Two-column watch/phone contrast. */
   .versus { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
   .card {
@@ -188,7 +267,7 @@
   .whoami { color: var(--muted); font-size: 0.95rem; margin-top: 2rem; }
   .whoami a { color: var(--gold); }
   .footwink {
-    margin-top: 2.5rem; font-size: 0.8rem; color: #5f6f8c;
+    margin-top: 2.5rem; font-size: 0.8rem; color: #7386a6;
     border-top: 1px solid #24314c; padding-top: 1rem;
   }
 
@@ -234,6 +313,34 @@
   <div class="scrollcue">scroll &#8595;</div>
 </section>
 
+<!-- ========================= THE PROBLEM ========================= -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu plain">This started as a chore, not an architecture.</p>
+    <h2>I wanted a website<br>for my kids.</h2>
+    <p class="lead">
+      That&rsquo;s the whole origin story. What made it interesting was the list of
+      things I <em>wasn&rsquo;t</em> willing to sign up for.
+    </p>
+    <ul class="spec">
+      <li class="yes"><span class="mark">&#10003;</span><span>Somewhere my kids can publish their own stuff</span></li>
+      <li class="yes"><span class="mark">&#10003;</span><span>Kid writes a sentence &rarr; it&rsquo;s on the site. No ceremony, no ticket, no waiting on Dad</span></li>
+      <li class="yes"><span class="mark">&#10003;</span><span>Me as <strong class="teal">content police</strong> &mdash; that job I&rsquo;ll happily take</span></li>
+      <li class="no"><span class="mark">&#10007;</span><span>Me as Head of IT. Or IT shadow.</span></li>
+      <li class="no"><span class="mark">&#10007;</span><span>A monthly bill with a growth curve</span></li>
+      <li class="no"><span class="mark">&#10007;</span><span>A CMS to patch, a database to back up, a plugin that breaks on January 19, 2038</span></li>
+      <li class="yes"><span class="mark">&#10003;</span><span>An <strong class="hi">AI angle</strong> &mdash; and I&rsquo;ll be honest about why: my future employability
+        apparently depends on how well I can convince an AI that I understand AI</span></li>
+      <li class="no"><span class="mark">&#10007;</span><span>An AI that gets creative with the budget. Or the facts.</span></li>
+    </ul>
+    <p class="sub">
+      Cheap, boring, kid-proof &mdash; with exactly enough AI in it to be a
+      <strong class="hi">period piece</strong>. The folder part will still work in 2038.
+      Ask me about the AI part then.
+    </p>
+  </div>
+</section>
+
 <!-- ============================ THESIS =========================== -->
 <section class="scene">
   <div class="inner reveal">
@@ -246,6 +353,112 @@
     <p class="sub">
       It has exactly one seam of AI. Everything else is plain, boring,
       trustworthy code. That&rsquo;s not a compromise. That&rsquo;s the design.
+    </p>
+  </div>
+</section>
+
+<!-- ====================== PRIMER 1: THE FOLDER =================== -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu plain">First, the boring part. It&rsquo;s load-bearing.</p>
+    <h2>The whole website<br>is a folder.</h2>
+    <p class="lead">
+      No database. No app. No server humming somewhere. This site is a folder of
+      text files &mdash; and every idea in this talk is just a rule about
+      <em>who is allowed to change that folder, and when.</em>
+    </p>
+    <div class="deck">
+      <div class="def">
+        <h3>&#128193; Git</h3>
+        <p>An undo button with a memory. Every change to the folder is saved as a
+        labeled snapshot &mdash; who, what, when &mdash; forever.
+        <span class="plain">Track-changes, but for a folder.</span></p>
+      </div>
+      <div class="def">
+        <h3>&#128025; GitHub</h3>
+        <p>That folder, online, where changes get <em>proposed</em> rather than
+        just made. A &ldquo;pull request&rdquo; is a suggested edit, sitting in a queue.
+        <span class="plain">&ldquo;Here&rsquo;s my change &mdash; okay?&rdquo;</span></p>
+      </div>
+      <div class="def">
+        <h3>&#127760; GitHub Pages</h3>
+        <p>Free hosting. GitHub takes the folder and hands it to anyone who visits.
+        Nothing to run, nothing to patch, nothing to pay.
+        <span class="plain">This page <em>is</em> that folder.</span></p>
+      </div>
+      <div class="def">
+        <h3>&#9881;&#65039; GitHub Actions</h3>
+        <p>A robot that watches the folder. An approved change lands, it rebuilds
+        the site and publishes &mdash; about ninety seconds, hands off.
+        <span class="plain">Same checklist every time, or it fails loudly.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRIMER 2: WHY IT WINS ==================== -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu plain">Why spend two minutes on that? Because it&rsquo;s the entire safety story.</p>
+    <h2>A dumb folder beats<br>a clever robot.</h2>
+    <p class="lead">
+      All four of those pieces are boring on purpose. Boring is exactly what makes
+      it safe to let an AI near a kid&rsquo;s website at all.
+    </p>
+    <div class="versus">
+      <div class="card watch">
+        <div class="big">&#128193;</div>
+        <h3>A page that&rsquo;s a file</h3>
+        <ul>
+          <li>Somebody read it before it went up</li>
+          <li>Every version is on the record &mdash; yesterday&rsquo;s is one click away</li>
+          <li>Nothing runs when a visitor arrives, so nothing breaks at 2&nbsp;a.m.</li>
+          <li>Costs $0, and outlives my interest in it</li>
+        </ul>
+      </div>
+      <div class="card phone">
+        <div class="big">&#129302;</div>
+        <h3>A page the AI serves</h3>
+        <ul>
+          <li>Written fresh for each visitor &mdash; nobody read it first</li>
+          <li>No version to roll back to; it just said something different</li>
+          <li>Down when the API is down</li>
+          <li>A bill, and a thing to babysit</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sub">
+      So the AI never touches the live site. It <strong class="hi">proposes</strong> a change
+      to a folder, a human says yes, and a robot ships it. That&rsquo;s the whole trick.
+    </p>
+  </div>
+</section>
+
+<!-- ====================== OLD MAN YELLS AT CLOUD ================= -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu plain">Old man yells at cloud.</p>
+    <div class="yells">
+      <span class="who" title="grandpa (real art TBD)" role="img" aria-label="Old man shaking his fist">&#128116;</span>
+      <p class="bubble">That&rsquo;s how the web used to work &mdash; and we liked it!</p>
+      <span class="cloudwrap">
+        <span class="cloud" role="img" aria-label="Cloud">&#9729;&#65039;</span>
+        <span class="lbl">487 settings. one of them ruins you.</span>
+      </span>
+    </div>
+    <h2>It was never the cloud.</h2>
+    <p class="lead">
+      I love the cloud. This site is <em>on</em> it, for free. What I don&rsquo;t need is
+      nginx, in a bespoke Docker container, on a medium EC2 instance, in a VPC I
+      hand-designed, in front of an Aurora database. That isn&rsquo;t the cloud&rsquo;s promise
+      &mdash; that&rsquo;s a datacenter I&rsquo;m renting, with 487 new ways to be wrong.
+    </p>
+    <p class="sub">
+      GitHub Pages <em>is</em> the promise: I bring files, somebody else already made
+      every other decision and lived with it. Give me five rock-solid architectures
+      that cover 99.999% of the web and let me point at one. Fewer knobs, fewer ways
+      to be catastrophically wrong &mdash;
+      <strong class="hi">the same bet I&rsquo;m making with the AI.</strong>
     </p>
   </div>
 </section>
@@ -366,6 +579,7 @@
       Find the seam where AI is genuinely the right tool. Give it that
       one job. Let honest code carry the rest.
     </p>
+    <p class="lead"><strong class="teal">The folder outlives the model.</strong></p>
     <p class="whoami">
       A talk by <strong>Matt Knoll</strong> &middot; in a personal capacity.<br>
       Built With Charm &middot; Baltimore &middot; 2026.
