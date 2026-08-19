@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You Had One Job — Kunu's AI Lesson</title>
+<meta name="description" content="Getting more from AI by doing less with AI. An email-to-website pipeline, and the one seam where AI belongs.">
+
+<style>
+  /* ------------------------------------------------------------------
+     A talk, as a scrollable page. Hand-written HTML — the AI didn't
+     do this part. Do less. (Single self-contained file on purpose so
+     it can be dropped anywhere static.)
+  ------------------------------------------------------------------ */
+  :root {
+    /* Old Bay tin palette — navy label, golden tin, steamed-crab red. */
+    --navy:   #002d62;   /* Old Bay label blue — page base    */
+    --navy2:  #0b3b74;   /* lifted panel blue                 */
+    --code:   #123a68;   /* "plumbing" box blue               */
+    --cream:  #fff5df;   /* tin cream — body text             */
+    --muted:  #9fb6d6;   /* dim slate-blue — labels           */
+    --gold:   #ffc72c;   /* Old Bay yellow — primary accent   */
+    --gold2:  #f2a900;   /* deep amber                        */
+    --red:    #c8102e;   /* Old Bay red — the one job / pops  */
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--cream);
+    background: var(--navy);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Each beat is a full-height scroll section. */
+  .scene {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 1.25rem;
+    position: relative;
+  }
+  .inner { max-width: 760px; width: 100%; }
+
+  /* Section eyebrow: the Kunu quote that titles each chapter. */
+  .kunu {
+    font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    font-size: clamp(1.05rem, 2.6vw, 1.5rem);
+    margin: 0 0 1.25rem;
+  }
+  .kunu::before { content: "\201C"; }
+  .kunu::after  { content: "\201D"; }
+
+  h1, h2 { line-height: 1.08; margin: 0 0 1rem; font-weight: 800; }
+  h2 { font-size: clamp(1.8rem, 5vw, 3rem); color: var(--gold); }
+
+  p.lead { font-size: clamp(1.1rem, 2.4vw, 1.35rem); color: var(--cream); }
+  p.sub  { color: var(--muted); font-size: 1.05rem; }
+  strong.hi { color: var(--red); }
+  .teal { color: var(--gold); }
+
+  /* ---------------------------- COVER ---------------------------- */
+  #cover {
+    background:
+      radial-gradient(120% 90% at 50% 8%, rgba(242,169,0,0.30), transparent 55%),
+      linear-gradient(180deg, #0a3a72 0%, #06305f 45%, #002d62 100%);
+  }
+  .badge {
+    display: inline-block;
+    padding: 2.5rem 2rem 2rem;
+    border: 3px solid var(--gold);
+    border-radius: 50% / 12%;
+    background: rgba(15,24,38,0.35);
+    box-shadow: 0 0 0 6px rgba(255,179,71,0.08), 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .badge .arc {
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-weight: 800;
+    color: var(--gold);
+    font-size: clamp(0.8rem, 2.4vw, 1.15rem);
+    margin-bottom: 0.5rem;
+  }
+  /* The setting sun with retro stripe bands. */
+  .sun {
+    width: clamp(120px, 30vw, 180px);
+    height: clamp(120px, 30vw, 180px);
+    margin: 0.5rem auto 0.75rem;
+    border-radius: 50%;
+    background:
+      repeating-linear-gradient(
+        180deg,
+        var(--gold) 0 14%,
+        var(--gold2) 14% 20%);
+    -webkit-mask: linear-gradient(#000, #000);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(255,199,44,0.5);
+  }
+  .mascot {
+    font-size: clamp(3rem, 11vw, 5.5rem);
+    line-height: 1;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+  }
+  .doless {
+    font-size: clamp(2.6rem, 11vw, 5rem);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    margin: 0.4rem 0 0.2rem;
+    background: linear-gradient(90deg, var(--gold), var(--gold2), var(--red));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .place {
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--cream);
+    font-size: clamp(0.7rem, 2vw, 0.95rem);
+  }
+  .cover-title { margin-top: 2.5rem; }
+  .cover-title h1 {
+    font-size: clamp(2rem, 7vw, 3.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .scrollcue {
+    position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    color: var(--muted); font-size: 0.8rem; letter-spacing: 0.2em;
+    text-transform: uppercase; animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100%{ transform: translate(-50%,0); } 50%{ transform: translate(-50%,8px);} }
+
+  /* ------------------------- PIPELINE --------------------------- */
+  .pipe {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch;
+    gap: 0.4rem; margin: 2rem 0 1rem;
+  }
+  .node {
+    background: var(--code);
+    border: 1px solid #3a4a6b;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    min-width: 92px;
+    display: flex; flex-direction: column; gap: 0.15rem;
+    justify-content: center;
+  }
+  .node .glyph { font-size: 1.5rem; }
+  .node .name { font-weight: 700; font-size: 0.95rem; }
+  .node .tag  { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .node.ai {
+    background: linear-gradient(160deg, var(--gold2), var(--red));
+    border-color: var(--gold);
+    box-shadow: 0 0 34px rgba(200,16,46,0.55);
+    transform: scale(1.06);
+  }
+  .node.ai .tag { color: #fff2e6; }
+  .arrow { align-self: center; color: var(--muted); font-size: 1.3rem; }
+  .caption { color: var(--muted); font-style: italic; margin-top: 0.5rem; }
+
+  /* Two-column watch/phone contrast. */
+  .versus { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
+  .card {
+    flex: 1 1 260px; max-width: 320px; text-align: left;
+    background: var(--navy2); border: 1px solid #2b3a58; border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+  }
+  .card h3 { margin: 0.2rem 0 0.5rem; font-size: 1.2rem; }
+  .card .big { font-size: 2rem; }
+  .card.watch { border-color: var(--gold); }
+  .card.phone { border-color: #4a5878; }
+  .card ul { margin: 0.5rem 0 0; padding-left: 1.1rem; color: var(--muted); }
+  .card.watch h3 { color: var(--gold); }
+
+  /* Closing. */
+  #close { background: linear-gradient(180deg, #002d62, #071a33); }
+  .whoami { color: var(--muted); font-size: 0.95rem; margin-top: 2rem; }
+  .whoami a { color: var(--gold); }
+  .footwink {
+    margin-top: 2.5rem; font-size: 0.8rem; color: #5f6f8c;
+    border-top: 1px solid #24314c; padding-top: 1rem;
+  }
+
+  /* Scroll-reveal, no JavaScript. Content fades up as it enters the
+     viewport using a CSS scroll-driven animation. Default state is
+     fully visible, so browsers without view() timelines just show the
+     content plainly — progressive enhancement, nothing to break. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+    @keyframes reveal-in {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: none; }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; transform: none; }
+    .scrollcue { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ COVER ============================ -->
+<section class="scene" id="cover">
+  <div class="inner reveal">
+    <div class="badge">
+      <div class="arc">Kunu's&nbsp;&nbsp;AI&nbsp;&nbsp;Lesson</div>
+      <div class="sun"></div>
+      <div class="mascot" title="crab, reclining (real art TBD)">&#129408;</div>
+      <div class="doless">DO LESS</div>
+      <div class="place">Baltimore, Maryland</div>
+    </div>
+    <div class="cover-title">
+      <h1>You Had One Job</h1>
+      <p class="lead">Getting more from AI by doing <em>less</em> with AI.</p>
+    </div>
+  </div>
+  <div class="scrollcue">scroll &#8595;</div>
+</section>
+
+<!-- ============================ THESIS =========================== -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu">The less you do, the more you do.</p>
+    <h2>Most of an &ldquo;AI&rdquo; pipeline<br>isn&rsquo;t AI.</h2>
+    <p class="lead">
+      This is a system that turns an email &mdash; <em>&ldquo;dear website, I got a new
+      bike, here&rsquo;s a photo&rdquo;</em> &mdash; into a live website update, in about two minutes.
+    </p>
+    <p class="sub">
+      It has exactly one seam of AI. Everything else is plain, boring,
+      trustworthy code. That&rsquo;s not a compromise. That&rsquo;s the design.
+    </p>
+  </div>
+</section>
+
+<!-- =========================== PIPELINE ========================== -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu">Do you see how much I&rsquo;m <em>not</em> doing?</p>
+    <h2>Count the boxes.</h2>
+    <div class="pipe">
+      <div class="node"><span class="glyph">&#9993;&#65039;</span><span class="name">email</span><span class="tag">code</span></div>
+      <span class="arrow">&#8594;</span>
+      <div class="node"><span class="glyph">&#128203;</span><span class="name">issue</span><span class="tag">code</span></div>
+      <span class="arrow">&#8594;</span>
+      <div class="node ai"><span class="glyph">&#129302;</span><span class="name">agent</span><span class="tag">the one job</span></div>
+      <span class="arrow">&#8594;</span>
+      <div class="node"><span class="glyph">&#127959;&#65039;</span><span class="name">PR</span><span class="tag">code</span></div>
+      <span class="arrow">&#8594;</span>
+      <div class="node"><span class="glyph">&#128640;</span><span class="name">deploy</span><span class="tag">code</span></div>
+    </div>
+    <p class="caption">One box understands the message. The other four just move it around &mdash; reliably, cheaply, forever.</p>
+  </div>
+</section>
+
+<!-- ========================= WATCH / PHONE ======================= -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu">I don&rsquo;t wear a watch anymore. My phone tells the time.</p>
+    <h2>The everything-device trap.</h2>
+    <p class="lead">
+      The LLM is the <strong class="hi">smartphone</strong> of your stack. It <em>can</em> do
+      almost anything &mdash; a little. Which is exactly why you&rsquo;re tempted to
+      let it absorb every job.
+    </p>
+    <div class="versus">
+      <div class="card watch">
+        <div class="big">&#8987;</div>
+        <h3>A watch</h3>
+        <p>Does one thing. Glanceable, cheap, never asks you to log in, never hallucinates the time.</p>
+        <ul>
+          <li>parse an address</li>
+          <li>validate a slug</li>
+          <li>move a file, open a PR</li>
+        </ul>
+      </div>
+      <div class="card phone">
+        <div class="big">&#128241;</div>
+        <h3>A phone</h3>
+        <p>Also tells the time &mdash; while being a slot machine, a camera, and forty notifications.</p>
+        <ul>
+          <li>understand &ldquo;I got a new bike&rdquo;</li>
+          <li>&hellip;and that&rsquo;s it.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sub">Don&rsquo;t make a load-bearing clock out of a slot machine. Use a watch for the watch jobs.</p>
+  </div>
+</section>
+
+<!-- ========================== CALIBRATION ======================== -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu">Do less. Not nothing. You gotta do <em>something</em>.</p>
+    <h2>Do less &mdash; not nothing.</h2>
+    <p class="lead">
+      The trap has two walls. Teams go all-AI, get burned, then swing to
+      all-rules and rebuild a brittle regex that chokes on the first kid who
+      spells &ldquo;dinosaur&rdquo; wrong.
+    </p>
+    <p class="sub">
+      Turning a messy human sentence into structured intent is a real job
+      that <em>only</em> the model does well. So you don&rsquo;t do nothing with AI.
+      You do <span class="teal">less</span>. Land the plane in the narrow middle.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ BAIL ============================= -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu">When life gives you lemons, say &lsquo;forget the lemons&rsquo; and bail.</p>
+    <h2>Bail to a human.</h2>
+    <p class="lead">
+      The safety model isn&rsquo;t &ldquo;trust the model&rsquo;s judgment.&rdquo; It&rsquo;s a
+      <strong class="hi">path filter in CI</strong> &mdash; the agent can only touch
+      <code>content/</code> &mdash; and a pull request a human sees first.
+    </p>
+    <p class="sub">
+      When it&rsquo;s a kid&rsquo;s site, that PR gate <em>is</em> invisible parental
+      moderation. When in doubt, don&rsquo;t fight the wave. Bail.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ WAVE ============================= -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu">You can&rsquo;t fight the wave. You&rsquo;ve got to ride it.</p>
+    <h2>Ride the model&rsquo;s grain.</h2>
+    <p class="lead">
+      The agent writes <strong class="hi">markdown</strong>, never HTML. Its output
+      runs through Pydantic before it touches a file &mdash; valid slug, real date,
+      a section that exists.
+    </p>
+    <p class="sub">
+      A narrow output schema is what keeps a cheap model reliable. You&rsquo;re not
+      wrestling the wave into a shape. You&rsquo;re giving it a lane and letting it go.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ CLOSE ============================ -->
+<section class="scene" id="close">
+  <div class="inner reveal">
+    <p class="kunu">This is what it looks like.</p>
+    <h2>Do less.</h2>
+    <p class="lead">
+      Find the seam where AI is genuinely the right tool. Give it that
+      one job. Let honest code carry the rest.
+    </p>
+    <p class="whoami">
+      A talk by <strong>Matt Knoll</strong> &middot; in a personal capacity.<br>
+      Built With Charm &middot; Baltimore &middot; 2026.
+    </p>
+    <p class="footwink">
+      This page is hand-written HTML. The AI didn&rsquo;t do it. &#129408;
+    </p>
+  </div>
+</section>
+
+</body>
+</html>
