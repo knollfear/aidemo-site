@@ -174,6 +174,40 @@
   .arrow { align-self: center; color: var(--muted); font-size: 1.3rem; }
   .caption { color: var(--muted); font-style: italic; margin-top: 0.5rem; }
 
+  /* Input and output, side by side. Mock panels rather than screenshots,
+     so the page stays asset-free — swap in real grabs whenever. */
+  .artifact {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch;
+    gap: 1rem; text-align: left;
+    margin: 1.75rem 0 1rem;
+  }
+  .pane {
+    flex: 1 1 300px; max-width: 335px;
+    border: 1px solid #2b3a58; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+  }
+  .pane .bar {
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.18em;
+    padding: 0.5rem 0.85rem;
+  }
+  .mail { background: var(--navy2); }
+  .mail .bar { background: #08305f; color: var(--muted); }
+  .mail .hdr { padding: 0.7rem 0.9rem 0; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .mail .hdr b { color: var(--cream); font-weight: 600; }
+  .mail .body { padding: 0.55rem 0.9rem 0.9rem; font-size: 0.95rem; }
+  .mail .clip { color: var(--muted); font-size: 0.78rem; }
+  /* The output pane is a light page on purpose — it reads as "the web". */
+  .site { background: var(--cream); color: var(--navy); border-color: #d8c9a4; }
+  .site .bar { background: #ecdfc0; color: #3d5279; }
+  .site h4 { margin: 0.85rem 0.9rem 0.15rem; font-size: 1.05rem; }
+  .site .date {
+    margin: 0 0.9rem; font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: #4d6289;
+  }
+  .site p { margin: 0.55rem 0.9rem 1rem; font-size: 0.92rem; line-height: 1.55; }
+  .gap { align-self: center; text-align: center; color: var(--muted); font-size: 0.78rem; }
+  .gap .t { display: block; font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+
   /* The requirements list — what I wanted, what I refused to sign up for. */
   .spec {
     list-style: none; padding: 0;
@@ -353,6 +387,48 @@
     <p class="sub">
       It has exactly one seam of AI. Everything else is plain, boring,
       trustworthy code. That&rsquo;s not a compromise. That&rsquo;s the design.
+    </p>
+  </div>
+</section>
+
+<!-- ========================== THE ARTIFACT ======================= -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu plain">This is the entire product.</p>
+    <h2>An email in.<br>A website out.</h2>
+    <div class="artifact">
+      <div class="pane mail">
+        <div class="bar">&#9993;&#65039;&nbsp; inbox &mdash; 9:14 am</div>
+        <div class="hdr">
+          From: <b>kid@example.com</b><br>
+          To: <b>my-site@example.com</b><br>
+          Subject: <b>i got a new bike</b>
+        </div>
+        <div class="body">
+          dear website, i got a new bike for my birthday. it is blue and it has
+          21 gears. i rode it to the park with dad. can you put this on my page
+          <div class="clip">&#128206; bike.jpg</div>
+        </div>
+      </div>
+
+      <div class="gap">
+        <span class="t">&#8594;</span>
+        &asymp;&nbsp;2&nbsp;minutes
+      </div>
+
+      <div class="pane site">
+        <div class="bar">&#128274; my-site.com/updates/ &mdash; 9:16 am</div>
+        <h4>I got a new bike</h4>
+        <p class="date">August 19, 2026</p>
+        <p>
+          I got a new bike for my birthday! It&rsquo;s blue and it has 21 gears.
+          I rode it to the park with Dad.
+        </p>
+      </div>
+    </div>
+    <p class="caption">
+      One human click in the middle, to approve it. The model&rsquo;s entire job was
+      turning the left box into the right box&rsquo;s words.
     </p>
   </div>
 </section>
@@ -581,7 +657,7 @@
     </p>
     <p class="lead"><strong class="teal">The folder outlives the model.</strong></p>
     <p class="whoami">
-      A talk by <strong>Matt Knoll</strong> &middot; in a personal capacity.<br>
+      A talk by <strong>Michael Knoll</strong> &middot; in a personal capacity.<br>
       Built With Charm &middot; Baltimore &middot; 2026.
     </p>
     <p class="footwink">
