@@ -417,6 +417,25 @@
     letter-spacing: 0.01em;
   }
 
+  /* Full-bleed banner that carries its own caption in the art. */
+  .banner {
+    margin: 1.5rem 0 1.3rem;
+    width: 100%;
+  }
+  .banner img {
+    display: block; width: 100%; height: auto;
+    border-radius: 10px;
+    box-shadow: 0 18px 44px rgba(0,0,0,0.45);
+  }
+  /* The dry aside that closes a scene — smaller than .sub, and knows it. */
+  .aside {
+    margin: 1.2rem auto 0;
+    max-width: 620px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
   /* Two-column watch/phone contrast. */
   .versus { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
   .card {
@@ -870,6 +889,49 @@
       <span class="teal">I removed the other choices.</span> Same trade I made with
       GitHub Pages, pointed at the model instead of at me:
       <strong class="hi">fewer options, fewer ways to be wrong.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ====================== INCONCEIVABLE: SETUP =================== -->
+<section class="scene">
+  <div class="inner reveal">
+    <p class="kunu plain">A confession from somewhere in the build.</p>
+    <h2>I thought it outsmarted me.</h2>
+    <p class="lead">
+      I was about to commit every scrap in this folder &mdash; a megabyte and change of
+      unused source images &mdash; into a public repo, forever, because sorting them felt
+      like work. The agent committed the six files the page actually serves, and left the
+      rest alone.
+    </p>
+    <p class="sub">
+      For about a second, that genuinely felt like intelligence.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== INCONCEIVABLE: REVEAL =================== -->
+<section class="scene">
+  <div class="inner reveal">
+    <figure class="banner">
+      <img src="vizzini-banner.webp" width="1400" height="700" loading="lazy" decoding="async"
+           alt="Vizzini from The Princess Bride over the word INCONCEIVABLE.">
+    </figure>
+    <p class="ask">
+      You keep using that word.<br>
+      I do not think it means what you think it means.
+    </p>
+    <p class="sub">
+      It was not intelligence. It was a rule &mdash; <em>do not put unreferenced binaries
+      in permanent history</em> &mdash; applied at midnight exactly the way it would be
+      applied at noon, by something that does not get tired and does not get lazy.
+      <span class="teal">That is not a new kind of mind. That is a computer.</span>
+      The one job is still the one job. But the part that saved me was the
+      <strong class="hi">boring part</strong>.
+    </p>
+    <p class="aside">
+      And if you think these jokes are bad, you should see the ones I threw away.
+      Doing less applies to material, too.
     </p>
   </div>
 </section>
