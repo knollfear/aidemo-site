@@ -1,15 +1,40 @@
+{{- /* Theme ids come from hugo.toml; the site default from content/_index.md
+       front matter. An unknown default (e.g. a typo in an agent PR) falls
+       back to the first theme rather than rendering unstyled. */ -}}
+{{- $themes := slice }}
+{{- range .Site.Params.themes }}{{ $themes = $themes | append .id }}{{ end }}
+{{- $default := .Site.Home.Params.theme | default (index $themes 0) }}
+{{- if not (in $themes $default) }}
+  {{- warnf "Unknown theme %q in content/_index.md; using %q" $default (index $themes 0) }}
+  {{- $default = index $themes 0 }}
+{{- end -}}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="{{ $default }}" data-default-theme="{{ $default }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+  {{- /* Apply a visitor's saved theme before CSS loads, so pages never
+         flash the default theme first. */}}
+  <script>
+    (function () {
+      var themes = {{ $themes | jsonify | safeJS }};
+      try {
+        var saved = localStorage.getItem("theme");
+        if (themes.indexOf(saved) !== -1) document.documentElement.dataset.theme = saved;
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Chewy&family=Fredoka:wght@400;600&family=Nunito:wght@400;800&family=Orbitron:wght@500;700&family=Oswald:wght@400;500&family=VT323&family=Work+Sans:wght@400;700&display=swap">
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
 <body>
   <header class="site-header">
     <a class="site-title" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
     {{ partial "nav.html" . }}
+    {{ partial "theme-picker.html" . }}
   </header>
   <main>
     {{ block "main" . }}{{ end }}

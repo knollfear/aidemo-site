@@ -4,3 +4,38 @@ title = "Demo Site"
 
 [params]
   tagline = "A sandbox for the email-to-website agent."
+
+  # Themes offered by the picker. Each id needs a matching
+  # [data-theme="<id>"] block in static/css/style.css. The site's default
+  # comes from `theme = "<id>"` in content/_index.md front matter, so the
+  # agent can change it without leaving content/.
+  [[params.themes]]
+    id = "classic"
+    name = "Classic"
+  [[params.themes]]
+    id = "night"
+    name = "Night"
+  [[params.themes]]
+    id = "apothecary"
+    name = "Apothecary"
+  [[params.themes]]
+    id = "midcentury"
+    name = "Mid-Century"
+  [[params.themes]]
+    id = "robot"
+    name = "Robot Pal"
+  [[params.themes]]
+    id = "ocean"
+    name = "Ocean"
+  [[params.themes]]
+    id = "jungle"
+    name = "Dino Jungle"
+  [[params.themes]]
+    id = "space"
+    name = "Outer Space"
+  [[params.themes]]
+    id = "candy"
+    name = "Candy"
+  [[params.themes]]
+    id = "terminal"
+    name = "Retro Terminal"
