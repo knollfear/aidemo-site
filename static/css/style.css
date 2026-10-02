@@ -1,15 +1,28 @@
+/* Layout reads only these variables; each [data-theme] block below
+   overrides some of them (plus, for fun themes, the body background).
+   Content is plain markdown, so themes style elements, not classes. */
 :root {
   --ink: #1f2430;
   --muted: #6b7280;
   --accent: #2563eb;
   --bg: #fdfdfb;
+  --rule: #eee;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-head: var(--font-body);
+  /* Fun themes put content on panels so it stays readable over the
+     background; plain themes leave these off. */
+  --surface: transparent;
+  --radius: 0;
+  --gap: 0;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding: var(--gap);
+  font-family: var(--font-body);
   line-height: 1.6;
   color: var(--ink);
   background: var(--bg);
@@ -19,37 +32,394 @@ main, .site-header, .site-footer {
   max-width: 720px;
   margin: 0 auto;
   padding: 1rem 1.25rem;
+  background: var(--surface);
+  border-radius: var(--radius);
 }
+
+main { margin-top: var(--gap); }
 
 .site-header {
   display: flex;
   align-items: baseline;
   gap: 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--rule);
   flex-wrap: wrap;
 }
 
 .site-title {
+  font-family: var(--font-head);
   font-weight: 700;
   font-size: 1.25rem;
   text-decoration: none;
   color: var(--ink);
 }
 
-.site-nav { display: flex; gap: 1rem; }
-.site-nav a { color: var(--accent); text-decoration: none; }
+.site-nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+.site-nav a { text-decoration: none; }
 .site-nav a:hover { text-decoration: underline; }
 
-h1 { line-height: 1.2; }
+a { color: var(--accent); }
+
+.theme-picker { margin-left: auto; font-size: 0.85rem; color: var(--muted); }
+.theme-picker select { font: inherit; margin-left: 0.35rem; }
+
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; }
 .tagline { color: var(--muted); font-size: 1.1rem; }
 
 .post-list { list-style: none; padding: 0; }
 .post-list li { margin: 0.4rem 0; display: flex; gap: 0.75rem; align-items: baseline; }
-.post-list time, .post-date { color: var(--muted); font-size: 0.85rem; }
+.post-list time, .post-date { color: var(--muted); font-size: 0.85rem; white-space: nowrap; }
 
 .site-footer {
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--rule);
   margin-top: 3rem;
   color: var(--muted);
   font-size: 0.85rem;
 }
+
+/* ---- Themes ---------------------------------------------------------- */
+
+/* classic: the :root defaults above. */
+
+[data-theme="night"] {
+  --ink: #e5e7eb;
+  --muted: #9ca3af;
+  --accent: #60a5fa;
+  --bg: #111318;
+  --rule: #2a2f3a;
+  color-scheme: dark;
+}
+
+[data-theme="ocean"] {
+  --ink: #0c2a3e;
+  --muted: #3b6a85;
+  --accent: #0369a1;
+  --bg: #0b3d5c;
+  --rule: rgba(3, 105, 161, 0.2);
+  --font-body: "Fredoka", "Trebuchet MS", sans-serif;
+  --surface: rgba(240, 249, 255, 0.92);
+  --radius: 16px;
+  --gap: 1rem;
+}
+[data-theme="ocean"] body {
+  /* Bubbles drifting over deepening water. */
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25) 0 5px, transparent 6px) 0 0 / 140px 180px,
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.18) 0 9px, transparent 10px) 0 0 / 220px 260px,
+    linear-gradient(180deg, #22d3ee 0%, #0e7490 35%, #0b3d5c 75%, #082f49 100%) fixed,
+    #082f49;
+}
+
+[data-theme="jungle"] {
+  --ink: #1a2e05;
+  --muted: #4d6b2a;
+  --accent: #15803d;
+  --bg: #14532d;
+  --rule: rgba(21, 128, 61, 0.25);
+  --font-head: "Chewy", "Comic Sans MS", cursive;
+  --surface: rgba(247, 254, 231, 0.94);
+  --radius: 18px;
+  --gap: 1rem;
+}
+[data-theme="jungle"] body {
+  /* Three-toed dinosaur tracks wandering across the page. */
+  background:
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><g fill='%23a3e635' fill-opacity='.22'><g transform='translate(28 20) rotate(-15)'><ellipse cx='12' cy='30' rx='10' ry='12'/><ellipse cx='0' cy='12' rx='4' ry='11' transform='rotate(-28 0 12)'/><ellipse cx='12' cy='8' rx='4' ry='12'/><ellipse cx='24' cy='12' rx='4' ry='11' transform='rotate(28 24 12)'/></g><g transform='translate(100 92) rotate(20)'><ellipse cx='12' cy='30' rx='10' ry='12'/><ellipse cx='0' cy='12' rx='4' ry='11' transform='rotate(-28 0 12)'/><ellipse cx='12' cy='8' rx='4' ry='12'/><ellipse cx='24' cy='12' rx='4' ry='11' transform='rotate(28 24 12)'/></g></g></svg>"),
+    linear-gradient(160deg, #166534, #14532d 60%, #052e16) fixed,
+    #052e16;
+}
+
+[data-theme="space"] {
+  --ink: #e5e7ff;
+  --muted: #a5a8d6;
+  --accent: #c4b5fd;
+  --bg: #0b0820;
+  --rule: rgba(196, 181, 253, 0.2);
+  --font-head: "Orbitron", "Arial Black", sans-serif;
+  --surface: rgba(17, 12, 46, 0.82);
+  --radius: 12px;
+  --gap: 1rem;
+  color-scheme: dark;
+}
+[data-theme="space"] body {
+  /* A tiling starfield over a purple nebula. */
+  background:
+    radial-gradient(1px 1px at 20px 30px, #fff, transparent) 0 0 / 200px 200px,
+    radial-gradient(1px 1px at 140px 70px, #fff, transparent) 0 0 / 200px 200px,
+    radial-gradient(1.5px 1.5px at 90px 150px, #e0e7ff, transparent) 0 0 / 200px 200px,
+    radial-gradient(1px 1px at 60px 110px, #fff, transparent) 0 0 / 200px 200px,
+    radial-gradient(2px 2px at 170px 180px, #fde68a, transparent) 0 0 / 200px 200px,
+    radial-gradient(ellipse at 85% 10%, rgba(124, 58, 237, 0.45), transparent 55%) fixed,
+    radial-gradient(ellipse at 10% 90%, rgba(219, 39, 119, 0.3), transparent 50%) fixed,
+    #0b0820;
+}
+
+[data-theme="candy"] {
+  --ink: #500724;
+  --muted: #9d4b73;
+  --accent: #db2777;
+  --bg: #fdf2f8;
+  --rule: rgba(219, 39, 119, 0.2);
+  --font-body: "Fredoka", "Trebuchet MS", sans-serif;
+  --surface: rgba(255, 255, 255, 0.93);
+  --radius: 24px;
+  --gap: 1rem;
+}
+[data-theme="candy"] body {
+  /* Two offset grids of sprinkles. */
+  background:
+    radial-gradient(#f9a8d4 22%, transparent 23%) 0 0 / 44px 44px,
+    radial-gradient(#a5f3fc 22%, transparent 23%) 22px 22px / 44px 44px,
+    #fdf2f8;
+}
+
+[data-theme="terminal"] {
+  --ink: #4ade80;
+  --muted: #3fa860;
+  --accent: #bef264;
+  --bg: #050a05;
+  --rule: #1f4d2b;
+  --font-body: "VT323", "Courier New", monospace;
+  color-scheme: dark;
+}
+[data-theme="terminal"] body {
+  font-size: 1.25rem; /* VT323 runs small */
+  text-shadow: 0 0 4px rgba(74, 222, 128, 0.45);
+  /* CRT scanlines. */
+  background:
+    repeating-linear-gradient(0deg, rgba(74, 222, 128, 0.05) 0 1px, transparent 1px 3px),
+    #050a05;
+}
+[data-theme="terminal"] .site-title::before { content: "> "; }
+
+/* ---- Zen Garden-inspired themes --------------------------------------
+   Original CSS written for this site, after designs we admired at
+   csszengarden.com (#218 Apothecary, #221 Mid Century Modern, #215 A
+   Robot Named Jimmy). Same markup as every other theme. */
+
+/* Apothecary: an old medicine-bottle label. Three colors, a printed
+   frame, and book typography doing the work. */
+[data-theme="apothecary"] {
+  --ink: #3f3d3a;
+  --muted: #7a746b;
+  --accent: #e5452c;
+  --bg: #faf3e6;
+  --rule: #272625;
+  --font-body: "Bodoni Moda", Didot, Georgia, serif;
+  --font-head: "Oswald", "Arial Narrow", sans-serif;
+  --gap: 1.75rem;
+}
+[data-theme="apothecary"] body::before {
+  /* The label's frame, fixed to the window edges. */
+  content: "";
+  position: fixed;
+  inset: 0.5rem;
+  border: 6px solid var(--rule);
+  pointer-events: none;
+}
+[data-theme="apothecary"] body::after {
+  /* The red tab hanging from the top of the frame. */
+  content: "";
+  position: absolute;
+  top: calc(0.5rem + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-top: 4rem solid var(--accent);
+  border-left: 3.25rem solid transparent;
+  border-right: 3.25rem solid transparent;
+}
+[data-theme="apothecary"] .site-header {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding-top: 5rem;
+  border-bottom: 0;
+}
+[data-theme="apothecary"] .site-header::before {
+  content: "No. 1";
+  position: absolute;
+  top: 1.5rem;
+  left: 1.75rem;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+[data-theme="apothecary"] .site-title {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 8vw, 4.25rem);
+  line-height: 1.1;
+}
+[data-theme="apothecary"] .site-nav a {
+  font-family: var(--font-head);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+[data-theme="apothecary"] .site-nav { justify-content: center; }
+[data-theme="apothecary"] .theme-picker { margin-left: 0; font-style: italic; }
+@media (min-width: 40rem) {
+  [data-theme="apothecary"] .theme-picker {
+    /* Sits where the label prints its "5.23 fl oz". */
+    position: absolute;
+    top: 1.2rem;
+    right: 1.75rem;
+  }
+}
+[data-theme="apothecary"] main { max-width: 34em; }
+[data-theme="apothecary"] h1,
+[data-theme="apothecary"] h2 {
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+[data-theme="apothecary"] h1 { font-size: clamp(2rem, 6vw, 3rem); }
+[data-theme="apothecary"] h2 {
+  border-top: 6px solid var(--rule);
+  border-bottom: 6px solid var(--rule);
+  padding: 0.35em 0;
+}
+[data-theme="apothecary"] main p { margin: 0; }
+[data-theme="apothecary"] main p + p { text-indent: 1.5em; }
+[data-theme="apothecary"] main :is(h1, h2, time) + p { margin-top: 1rem; }
+[data-theme="apothecary"] main :is(h1, h2, time) + p::first-line {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+[data-theme="apothecary"] .post-date,
+[data-theme="apothecary"] .post-list time { font-style: italic; }
+[data-theme="apothecary"] .post-date { display: block; text-align: center; }
+[data-theme="apothecary"] .site-footer {
+  text-align: center;
+  font-style: italic;
+  border-top: 0;
+}
+
+/* Mid-Century: flat color blocks, white circles, bold sans. On wide
+   screens the header becomes a sidebar -- a layout change from CSS alone. */
+[data-theme="midcentury"] {
+  --ink: #0d2c40;
+  --muted: #4a5d6b;
+  --accent: #d9481f;
+  --bg: #c879b2;
+  --rule: transparent;
+  --font-body: "Work Sans", "Helvetica Neue", Arial, sans-serif;
+  --surface: #f6efe5;
+  --gap: 1rem;
+}
+[data-theme="midcentury"] .site-header {
+  background: #0d2c40;
+  color: #f6efe5;
+  padding: 1.5rem 1.25rem;
+}
+[data-theme="midcentury"] .site-header::after {
+  /* A strip of color tiles, each holding a white circle. */
+  content: "";
+  flex-basis: 100%;
+  height: clamp(3.5rem, 16vw, 9rem);
+  background:
+    radial-gradient(circle closest-side, #fff 0 72%, transparent 74%) 0 0 / 25% 100%,
+    linear-gradient(90deg, #f15a30 0 25%, #31c5da 25% 50%, #c879b2 50% 75%, #f15a30 75%);
+}
+[data-theme="midcentury"] .site-title { color: #fff; font-size: 1.6rem; line-height: 1.15; }
+[data-theme="midcentury"] .site-nav a { color: #fff; font-weight: 700; }
+[data-theme="midcentury"] .theme-picker { color: #c9d6df; }
+[data-theme="midcentury"] h1 { font-size: 2.4rem; }
+[data-theme="midcentury"] h2 {
+  border-left: 0.6rem solid #31c5da;
+  padding-left: 0.6rem;
+}
+[data-theme="midcentury"] .site-footer {
+  background: #f15a30;
+  color: #fff;
+  margin-top: var(--gap);
+}
+@media (min-width: 60rem) {
+  [data-theme="midcentury"] body {
+    display: grid;
+    grid-template-columns: 16rem minmax(0, 720px);
+    justify-content: center;
+    align-items: start;
+    gap: var(--gap);
+  }
+  [data-theme="midcentury"] .site-header {
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: var(--gap);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    margin: 0;
+  }
+  [data-theme="midcentury"] .site-header::after { flex-basis: auto; height: 3.4rem; }
+  [data-theme="midcentury"] .site-nav { flex-direction: column; gap: 0.25rem; }
+  [data-theme="midcentury"] .theme-picker { margin-left: 0; }
+  [data-theme="midcentury"] main,
+  [data-theme="midcentury"] .site-footer { margin: 0; width: 100%; }
+}
+
+/* Robot Pal: a friendly mascot under a sunburst, primary colors,
+   chunky slab-serif headings. */
+[data-theme="robot"] {
+  --ink: #00374f;
+  --muted: #3d6d84;
+  --accent: #dd3b2a;
+  --bg: #edf6ff;
+  --rule: #cce4fb;
+  --font-body: "Nunito", "Trebuchet MS", sans-serif;
+  --font-head: "Arvo", Rockwell, "Courier New", serif;
+  --surface: #fff;
+  --radius: 14px;
+  --gap: 1rem;
+}
+[data-theme="robot"] body {
+  /* Sunburst rays fanning down from the top, fading into the sky. */
+  background:
+    linear-gradient(transparent, var(--bg) 34rem) no-repeat,
+    repeating-conic-gradient(from 90deg at 50% 0, #d4eafc 0 7deg, var(--bg) 7deg 14deg) 0 0 / 100% 34rem no-repeat,
+    var(--bg);
+}
+[data-theme="robot"] .site-header {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border-bottom: 0;
+}
+[data-theme="robot"] .site-header::before {
+  /* The mascot: arms up, waving hello. */
+  content: "";
+  width: 9rem;
+  height: 9rem;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'><g stroke-linecap='round'><path d='M50 92 L24 40 M110 92 L136 40' stroke='%232babe1' stroke-width='12'/><line x1='80' y1='10' x2='80' y2='28' stroke='%2300374f' stroke-width='4'/></g><circle cx='22' cy='34' r='10' fill='%232babe1'/><circle cx='138' cy='34' r='10' fill='%232babe1'/><circle cx='80' cy='9' r='7' fill='%23dd3b2a'/><rect x='60' y='126' width='14' height='24' rx='6' fill='%232babe1'/><rect x='86' y='126' width='14' height='24' rx='6' fill='%232babe1'/><rect x='52' y='78' width='56' height='54' rx='14' fill='%231e8fc4'/><circle cx='80' cy='104' r='11' fill='%23edf6ff'/><circle cx='80' cy='104' r='5' fill='%23dd3b2a'/><rect x='46' y='26' width='68' height='50' rx='16' fill='%232babe1'/><circle cx='66' cy='47' r='8' fill='%23fff'/><circle cx='94' cy='47' r='8' fill='%23fff'/><circle cx='67' cy='48' r='3.5' fill='%2300374f'/><circle cx='95' cy='48' r='3.5' fill='%2300374f'/><path d='M66 62 Q80 72 94 62' stroke='%23fff' stroke-width='4' fill='none' stroke-linecap='round'/></svg>") center / contain no-repeat;
+}
+[data-theme="robot"] .site-title {
+  /* Title sits between two red rules. */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  font-size: clamp(2rem, 7vw, 3rem);
+  text-align: center;
+}
+[data-theme="robot"] .site-title::before,
+[data-theme="robot"] .site-title::after {
+  content: "";
+  flex: 1;
+  border-top: 2px solid var(--accent);
+}
+[data-theme="robot"] .site-nav { justify-content: center; }
+[data-theme="robot"] .site-nav a {
+  background: #2babe1;
+  color: #fff;
+  font-weight: 800;
+  padding: 0.15em 0.9em;
+  border-radius: 999px;
+}
+[data-theme="robot"] .site-nav a:hover { background: var(--accent); text-decoration: none; }
+[data-theme="robot"] .theme-picker { margin-left: 0; }
+[data-theme="robot"] main { border-top: 5px solid var(--accent); }
+[data-theme="robot"] h1,
+[data-theme="robot"] h2 { color: var(--accent); font-weight: 400; }

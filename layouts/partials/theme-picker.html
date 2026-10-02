@@ -1,0 +1,28 @@
+{{- /* Visitor theme picker. Hidden until the script runs: without JS it
+       could not remember a choice, so the site default just applies. */ -}}
+<div class="theme-picker" hidden>
+  <label for="theme-select">Theme</label>
+  <select id="theme-select">
+    {{- range .Site.Params.themes }}
+    <option value="{{ .id }}">{{ .name }}</option>
+    {{- end }}
+  </select>
+</div>
+<script>
+  (function () {
+    var root = document.documentElement;
+    var picker = document.querySelector(".theme-picker");
+    var select = document.getElementById("theme-select");
+    select.value = root.dataset.theme;
+    picker.hidden = false;
+    select.addEventListener("change", function () {
+      root.dataset.theme = select.value;
+      try {
+        // Picking the site default clears the override, so a later
+        // change of default reaches this visitor too.
+        if (select.value === root.dataset.defaultTheme) localStorage.removeItem("theme");
+        else localStorage.setItem("theme", select.value);
+      } catch (e) {}
+    });
+  })();
+</script>
