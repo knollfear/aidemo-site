@@ -14,14 +14,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
-  {{- /* Apply a visitor's saved theme before CSS loads, so pages never
-         flash the default theme first. */}}
+  {{- /* Apply the visitor's theme before CSS loads, so pages never flash the
+         default theme first. A ?theme= link wins and is remembered, because
+         the site's own links don't carry the query string. */}}
   <script>
     (function () {
       var themes = {{ $themes | jsonify | safeJS }};
+      var root = document.documentElement;
+      var fromUrl = new URLSearchParams(location.search).get("theme");
+      if (themes.indexOf(fromUrl) !== -1) root.dataset.theme = fromUrl;
       try {
+        if (themes.indexOf(fromUrl) !== -1) {
+          if (fromUrl === root.dataset.defaultTheme) localStorage.removeItem("theme");
+          else localStorage.setItem("theme", fromUrl);
+        }
         var saved = localStorage.getItem("theme");
-        if (themes.indexOf(saved) !== -1) document.documentElement.dataset.theme = saved;
+        if (themes.indexOf(fromUrl) === -1 && themes.indexOf(saved) !== -1) root.dataset.theme = saved;
       } catch (e) {}
     })();
   </script>

@@ -17,6 +17,12 @@
     picker.hidden = false;
     select.addEventListener("change", function () {
       root.dataset.theme = select.value;
+      // Keep the address bar shareable: it always names the current theme,
+      // or none when that is the site default.
+      var url = new URL(location.href);
+      if (select.value === root.dataset.defaultTheme) url.searchParams.delete("theme");
+      else url.searchParams.set("theme", select.value);
+      history.replaceState(history.state, "", url);
       try {
         // Picking the site default clears the override, so a later
         // change of default reaches this visitor too.
