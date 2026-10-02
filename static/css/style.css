@@ -60,6 +60,9 @@ main { margin-top: var(--gap); }
 
 a { color: var(--accent); }
 
+/* Agent posts embed photos at full camera size; keep them inside the column. */
+img { max-width: 100%; height: auto; }
+
 .theme-picker { margin-left: auto; font-size: 0.85rem; color: var(--muted); }
 .theme-picker select { font: inherit; margin-left: 0.35rem; }
 
@@ -283,6 +286,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; }
 }
 [data-theme="apothecary"] main p { margin: 0; }
 [data-theme="apothecary"] main p + p { text-indent: 1.5em; }
+[data-theme="apothecary"] main p:has(img) { text-indent: 0; margin: 1rem 0; }
 [data-theme="apothecary"] main :is(h1, h2, time) + p { margin-top: 1rem; }
 [data-theme="apothecary"] main :is(h1, h2, time) + p::first-line {
   text-transform: uppercase;
