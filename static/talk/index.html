@@ -279,8 +279,15 @@
   }
   .cut li {
     padding: 0.35rem 0.8rem;
-    border: 1px solid #3c2f45; border-radius: 999px;
+    border: 1px solid #3a4a6b; border-radius: 999px;
     color: var(--cream);
+  }
+
+  /* Inline code in the copy — gold, like the other emphasis. */
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.9em;
+    color: var(--gold);
   }
 
   /* The ask, set apart — the one sentence this whole primer is driving at. */
@@ -358,24 +365,14 @@
     font-style: italic;
   }
 
-  /* Two-column watch/phone contrast. */
-  .versus { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
-  .card {
-    flex: 1 1 260px; max-width: 320px; text-align: left;
-    background: var(--navy2); border: 1px solid #2b3a58; border-radius: 12px;
-    padding: 1.25rem 1.4rem;
-  }
-  .card h3 { margin: 0.2rem 0 0.5rem; font-size: 1.2rem; }
-  .card .big { font-size: 2rem; }
-  .card.watch { border-color: var(--gold); }
-  .card.phone { border-color: #4a5878; }
-  .card ul { margin: 0.5rem 0 0; padding-left: 1.1rem; color: var(--muted); }
-  .card.watch h3 { color: var(--gold); }
-
   /* Closing. */
   #close { background: linear-gradient(180deg, #002d62, #071a33); }
   .whoami { color: var(--muted); font-size: 0.95rem; margin-top: 2rem; }
   .whoami a { color: var(--gold); }
+  /* The reveal link: the eyebrow stays gold and italic, and only hints
+     it is a link on hover — one click to the live site on stage. */
+  .kunu a { color: inherit; text-decoration: none; }
+  .kunu a:hover, .kunu a:focus { text-decoration: underline; }
   .footwink {
     margin-top: 2.5rem; font-size: 0.8rem; color: #7386a6;
     border-top: 1px solid #24314c; padding-top: 1rem;
@@ -411,7 +408,8 @@
     <div class="badge">
       <div class="arc">Kunu's&nbsp;&nbsp;AI&nbsp;&nbsp;Lesson</div>
       <div class="sun"></div>
-      <div class="mascot" title="crab, reclining (real art TBD)">&#129408;</div>
+      <div class="mascot" role="img" aria-label="A crab, reclining"
+           title="A crab, reclining. Real art was planned. The crab grew on me.">&#129408;</div>
       <div class="doless">DO LESS</div>
       <div class="place">Baltimore, Maryland</div>
     </div>
@@ -494,7 +492,7 @@
       <div class="pane site">
         <div class="bar">&#128274; my-site.com/updates/ &mdash; 9:16 am</div>
         <h4>I got a new bike</h4>
-        <p class="date">August 19, 2026</p>
+        <p class="date">October 15, 2026</p>
         <p>
           I got a new bike for my birthday! It&rsquo;s blue and it has 21 gears.
           I rode it to the park with Dad.
@@ -517,12 +515,12 @@
       <span class="who">&mdash; Antoine de Saint-Exup&eacute;ry</span>
     </h2>
     <p class="lead">
-      The cloud promised I would never think about a server again. Then it handed me
+      The cloud promised I would never think about a server again. Then it rented me
       a datacenter, with 487 new ways to be wrong. It took an entire new
       specialization &mdash; DevOps, or site reliability engineering &mdash; to tame it.
       A whole discipline, separate from the programming I had just spent a decade learning.
     </p>
-    <h3 class="cut-head">Things you can take away, and I won&rsquo;t miss them</h3>
+    <h3 class="cut-head">Things you can take away tomorrow, and I won&rsquo;t miss them</h3>
     <ul class="cut">
       <li>nginx</li>
       <li>a bespoke Docker container</li>
@@ -542,6 +540,7 @@
       The whole website is a folder. Git keeps every version, a pull request
       proposes a change, GitHub Pages serves it for free, and GitHub Actions ships
       it in about ninety seconds. I do not configure, patch, or get paged by any of it.
+      That is the cloud keeping its promise.
     </p>
     <figure class="meme">
       <img src="grandpa-cloud.webp" width="500" height="500"
@@ -558,7 +557,7 @@
 <section class="scene">
   <div class="inner reveal">
     <p class="kunu">The less you do, the more you do.</p>
-    <h2>Most of an &ldquo;AI&rdquo; pipeline<br>isn&rsquo;t AI.</h2>
+    <h2>Most of an &ldquo;AI&rdquo; pipeline<br>is not AI.</h2>
     <div class="pipe">
       <div class="node"><span class="glyph">&#9993;&#65039;</span><span class="name">email</span><span class="tag">code</span></div>
       <span class="arrow">&#8594;</span>
@@ -586,41 +585,6 @@
   </div>
 </section>
 
-<!-- ========================= WATCH / PHONE ======================= -->
-<section class="scene">
-  <div class="inner reveal">
-    <p class="kunu">I don&rsquo;t wear a watch anymore. My phone tells the time.</p>
-    <h2>The everything-device trap.</h2>
-    <p class="lead">
-      The LLM is the <strong class="hi">smartphone</strong> of your stack. It <em>can</em> do
-      almost anything &mdash; a little. Which is exactly why you&rsquo;re tempted to
-      let it absorb every job.
-    </p>
-    <div class="versus">
-      <div class="card watch">
-        <div class="big">&#8987;</div>
-        <h3>A watch</h3>
-        <p>Does one thing. Glanceable, cheap, never asks you to log in, never hallucinates the time.</p>
-        <ul>
-          <li>parse an address</li>
-          <li>validate a slug</li>
-          <li>move a file, open a PR</li>
-        </ul>
-      </div>
-      <div class="card phone">
-        <div class="big">&#128241;</div>
-        <h3>A phone</h3>
-        <p>Also tells the time &mdash; while being a slot machine, a camera, and forty notifications.</p>
-        <ul>
-          <li>understand &ldquo;I got a new bike&rdquo;</li>
-          <li>&hellip;and that&rsquo;s it.</li>
-        </ul>
-      </div>
-    </div>
-    <p class="sub">Don&rsquo;t make a load-bearing clock out of a slot machine. Use a watch for the watch jobs.</p>
-  </div>
-</section>
-
 <!-- ========================== CALIBRATION ======================== -->
 <section class="scene">
   <div class="inner reveal">
@@ -638,7 +602,7 @@
       know how to begin. The model does it on the first try, for a fraction of a cent.
     </p>
     <p class="sub">
-      That isn&rsquo;t a risk I&rsquo;m managing &mdash; <span class="teal">it&rsquo;s the reason
+      That is not a risk I am managing. <span class="teal">It is the reason
       this pipeline exists at all.</span>
     </p>
   </div>
@@ -709,10 +673,10 @@
     <p class="kunu plain">A confession from somewhere in the build.</p>
     <h2>I thought it outsmarted me.</h2>
     <p class="lead">
-      I was about to commit every scrap in this folder &mdash; a megabyte and change of
-      unused source images &mdash; into a public repo, forever, because sorting them felt
-      like work. The agent committed the six files the page actually serves, and left the
-      rest alone.
+      I was about to commit every scrap in this folder &mdash; two megabytes of unused
+      source images &mdash; into a public repo, forever, because sorting them felt like
+      work. The coding assistant I built this page with committed the seven files the page
+      actually serves, and left the rest alone.
     </p>
     <p class="sub">
       For about a second, that genuinely felt like intelligence.
@@ -749,7 +713,7 @@
 <!-- ============================ CLOSE ============================ -->
 <section class="scene" id="close">
   <div class="inner reveal">
-    <p class="kunu">This is what it looks like.</p>
+    <p class="kunu"><a href="https://aidemo.knollfear.com/updates/">This is what it looks like.</a></p>
     <h2>Do less.</h2>
     <p class="lead">
       Find the seam where AI is genuinely the right tool. Give it that
